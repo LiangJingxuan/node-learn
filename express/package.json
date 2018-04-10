@@ -1,0 +1,16 @@
+{
+  "name": "expresstest",
+  "version": "1.0.0",
+  "description": "使用Express实现简单的用户登录注册练习",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js"
+  },
+  "author": "liangjing",
+  "license": "ISC",
+  "devDependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "express-static": "^1.2.5"
+  }
+}
