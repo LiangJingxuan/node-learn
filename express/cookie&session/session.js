@@ -19,7 +19,7 @@ server.use(cookieSession({
 server.use('/',function(req,res){
 
 	// 写
-	req.session.views='1';
+	req.session.user=9102;
 
 	// 读
 	console.log(req.session);
