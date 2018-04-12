@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ejs test</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<!-- 
+		= 等号 转义输出
+		- 减号 原样输出
+		include 只能加载文件不能加载变量
+	 -->
+
+	<div>
+		<p><%= name %></p>
+	</div>
+
+	<ul>
+		<% for(var i=0;i<user.length;i++){ %>
+			<li> 账号: <%= user[i].name %> 密码: <%= user[i].pass %> </li>
+		<% } %>
+	</ul>
+
+	<div>
+		<% let tag='<span><i></i></span>'; %>
+		<%- tag %>
+	</div>
+
+	<style type="text/css">
+		<% if(css==='test1'){ %>
+				<% include ./test1.css %>
+		<%	}else{ %>
+				<% include ./test2.css %>
+		<%	} %>
+	</style>
+</body>
+</html>
