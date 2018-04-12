@@ -36,8 +36,26 @@ server.set('views','./views');
 // 模板引擎选择
 server.engine('html',consolidate.ejs);
 
+// 文件上传
+server.use('/up',function(req,res){
+	// 文件上传处理
+	// 文件名设置
+	console.log(req.files);
+	console.log(pathLib.parse(req.files[0].originalname));
+
+	let newName=req.files[0].path+pathLib.parse(req.files[0].originalname).ext;
+	fs.rename(req.files[0].path,newName,function(err,data){
+		if(err){
+			// console.log(err);
+			res.send('upload error!');
+		}else{
+			res.send('upload success!');
+		}
+	});
+});
+
 // 用户请求
-server.use('/index',function(req,res,next){
+server.use('/index',function(req,res){
 	// console.log(req.query, req.body, req.files, req.cookies, req.session);
 	req.session.userid=9102;
 
@@ -49,27 +67,8 @@ server.use('/index',function(req,res,next){
 		res.render('logout.ejs',{msg:'请登录'});
 
 	};
-
-	next();
 });
 
-// 文件上传
-server.use('/up',function(req,res){
-	// 文件上传处理
-	// 文件名设置
-	console.log(req.files);
-	console.log(req.pathLib);
-
-	let newName=req.files[0].path+pathLib.parse(req.files[0].originalname).ext;
-	fs.rename(req.files[0].path,newName,function(err,data){
-		if(err){
-			// console.log(err);
-			res.send('upload error!');
-		}else{
-			res.send('upload success!');
-		}
-	});
-})
 
 // 5.static数据
 server.use(static('./www'));
