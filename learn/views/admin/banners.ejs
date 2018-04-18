@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<div class="page">
+			<% include components/top.inc.ejs %>
+			<div class="content-wrap">
+				<div>
+					<form action="" method="POST">
+						<label>标题：</label>
+						<input type="text" name="title"><br><br>
+						<label>描述：</label>
+						<textarea name="description"></textarea><br><br>
+						<label>连接：</label>
+						<input type="text" name="href"><br><br>
+						<input type="submit" value="添加">
+					</form>
+				</div>
+				<table width="80%" border="1">
+					<thead align="left">
+						<tr>
+							<th>序号</th>
+							<th>标题</th>
+							<th>描述</th>
+							<th>连接</th>
+							<th>编辑</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% for(let i=0;i<banners.length;i++){ %>
+						<tr>
+							<td><%=banners[i].ID%></td>
+							<td><%=banners[i].title%></td>
+							<td><%=banners[i].description%></td>
+							<td><%=banners[i].href%></td>
+							<td>
+								<a href="?act=mod&id=<%=banners[i].ID%>">编辑</a>
+								<a href="?act=del&id=<%=banners[i].ID%>" onclick="return confirm('确认删除信息？')">删除</a>
+							</td>
+						</tr>
+						<% } %>
+					</tbody>
+				</table>
+				<div>修改</div>
+			</div>
+		</div>
+	</body>
+</html>
