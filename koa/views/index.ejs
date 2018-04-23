@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%=title%></title>
+</head>
+<body>
+    <p><%=user.name%></p>
+    <p><%=user.age%></p>
+    <p><%=user.work%></p>
+    <h2><%=title%></h2>
+    <ul>
+        <%for(let i=0;i<item.length;i++){%>
+        <li><%=item[i]%></li>
+        <%}%>
+    </ul>
+    <%include footer.ejs%>
+</body>
+</html>
