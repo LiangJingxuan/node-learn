@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body>
+    <form>
+        账户：<input type="text" id="user"> <br><br>
+        密码：<input type="password" id="password"> <br><br>
+        <button type="button" id="regAct">注册</button>
+    </form>
+    <script src="./jquery-1.11.3.min.js"></script>
+    <script>
+        // 注册操作
+        $('#regAct').click(function(){
+            $.ajax({
+                url: '/doRegister',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    user: $('#user').val(),
+                    password: $('#password').val()
+                },
+                success: function(res){
+                    if(res){
+                        alert('注册成功！');
+                    }else {
+                        alert('注册失败，请重试！');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
