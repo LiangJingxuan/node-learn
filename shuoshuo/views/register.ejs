@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>班级说说</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/jumbotron.css" rel="stylesheet">
+</head>
+<body>
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>班级说说</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/jumbotron.css" rel="stylesheet">
+</head>
+<body>
+
+<% include header.ejs %>
+
+<div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+        <br>
+        <h1>用户注册</h1>
+        <br>
+        <form>
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input type="text" class="form-control" id="username" placeholder="用户名">
+            </div>
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" class="form-control" id="password" placeholder="密码">
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"> 我同意本网站规则
+                </label>
+            </div>
+            <button type="button" class="btn btn-default" id="register">提交</button>
+        </form>
+    </div>
+
+    <hr>
+
+    <footer>
+        <p>&copy; 2016 Company, Inc.</p>
+    </footer>
+</div> <!-- /container -->
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script>
+    // 注册操作
+    $('#register').click(function(){
+        $.post('/doRegister',{
+            username: $('#username').val(),
+            password: $('#password').val()
+        },function(result){
+            if(result===1){
+                // 注册成功
+            }else if(result===-1){
+                // 用户名被占用
+            }else{
+               // 服务器错误
+            }
+        });
+    });
+</script>
+</body>
+</html>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>
