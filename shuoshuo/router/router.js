@@ -1,6 +1,9 @@
 const formidable=require('formidable');
 const db=require('../models/db');
 const md5=require('../models/md5');
+const fs=require('fs');
+const pathmodel=require('path');
+const gm=require('gm');
 
 module.exports={
 
@@ -17,7 +20,8 @@ module.exports={
                     'active': '首页',
 
                 });
-            })
+            });
+            return;
         }
         res.render('index',{
             'login': req.session.login=='1'?true:false,
@@ -120,5 +124,117 @@ module.exports={
                 }
             })
         });
+    },
+
+    // 设置头像视图
+    showSetavatar(req,res){
+        if(req.session.login!='1'){
+            res.send('非法闯入，这个页面要求登录！');
+            return;
+        }
+        res.render('setavatar',{
+            'login': true,
+            'username': req.session.username,
+            'active': '设置',
+        });
+    },
+
+    // 设置头像操作
+    doSetavatar(req,res){
+        let form=new formidable.IncomingForm();
+        form.uploadDir=__dirname+'/../avatar';
+        form.parse(req,(err,fields,files)=>{
+            // 改名
+            let oldname=files.touxiang.path;
+            let newname=__dirname+'/../avatar'+'/'+req.session.username+pathmodel.extname(files.touxiang.name);
+            fs.rename(oldname,newname,(err)=>{
+                if(err){
+                    res.send('头像上传失败！请重试。');
+                    return;
+                }
+                // 缓存文件名给裁切页面使用
+                req.session.avatar=req.session.username+pathmodel.extname(files.touxiang.name);
+                // 跳转到切的业务，路由重定向
+                res.redirect('/cut');
+            })
+        });
+    },
+
+    // 裁切头像视图
+    showCut(req,res){
+        res.render('cut',{
+            'avatar': req.session.avatar
+        });
+    },
+
+    // 裁切头像操作
+    doCut(req,res){
+        let filname=req.session.avatar;
+        let w=req.query.w;
+        let h=req.query.h;
+        let x=req.query.x;
+        let y=req.query.y;
+
+        // 裁切
+        gm('./avatar/'+filname).crop(w,h,x,y).resize(100,100,'!')
+            .write('./avatar/'+filname,(err)=>{
+                if(err){
+                    res.send('-1');
+                    return;
+                }
+                // 更改数据库当前用户的avatar
+                db.updateMany('users',{'username':req.session.username},{
+                    $set: {'avatar': req.session.avatar}},(err,results)=>{
+                    res.send('1');
+                });
+        })
+    },
+
+    // 发表说说操作
+    doPost(req,res){
+        // 必须保证登录
+        if(req.session.login!='1'){
+            res.send('非法闯入，这个页面要求登录！');
+            return;
+        }
+        let username=req.session.username;
+        // 接收信息
+        const form=formidable.IncomingForm();
+        form.parse(req,(err,fields)=>{
+            let content=fields.content;
+            db.insertOne('posts',{
+                'username': username,
+                'date': new Date(),
+                'content': content
+
+            },(err,results)=>{
+                // 服务器错误
+                if(err){
+                    res.send('-3');
+                    return;
+                }
+                // 插入成功
+                res.send('1');
+            })
+        });
+    },
+
+    // 说说列表操作
+    getAllPost(req,res){
+        let page=req.query.page;
+        db.find('posts',{},{'pageamount':10,'page':page,'sort':{'datetime':-1}},(err,result)=>{
+            res.json(result);
+        })
+    },
+
+    // 查询用户信息
+    getUserInfo(req,res){
+        let username=req.query.username;
+        db.find('users',{'username':username},(err,result)=>{
+            let info={'avatar':result[0].avatar};
+            res.json(info);
+        })
     }
+
+
 };

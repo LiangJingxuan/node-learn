@@ -32,8 +32,8 @@ exports.find=function(collectionName,JSON,C,D){
     }else if(arguments.length===4){
         callback=D;
         args=C;
-        skipnumber=args.pageamout*args.page || 0; // 应该省略的条数
-        limit=args.pageamout || 0; // 数目限制
+        skipnumber=args.pageamount*args.page || 0; // 应该省略的条数
+        limit=args.pageamount || 0; // 数目限制
         sort=args.sort || {} ;// 排序方式
     }else{
         throw new Error('find action arguments length is three or four!');
@@ -90,3 +90,23 @@ exports.getAllCount=function(collectionName,callback){
         });
     })
 };
+
+// 初始化数据库创建不唯一索引
+(function(){
+    _connectDB((err,db)=>{
+        if(err){
+            console.log(err);
+            return;
+        }
+        // 将 users 表中的 username 字段作为索引
+        db.collection('users').createIndex(
+            {'username':1},
+            null,
+            (err,results)=>{
+                if(err){
+                    console.log(err);
+                }
+            }
+        )
+    })
+})();
