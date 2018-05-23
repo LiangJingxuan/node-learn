@@ -27,6 +27,8 @@ app.get('/doCut',router.doCut); //裁切头像操作
 app.post('/post',router.doPost); // 发表说说
 app.get('/getAllPost',router.getAllPost); // 说说列表查询操作
 app.get('/getUserInfo',router.getUserInfo); // 查询用户信息
-
+app.get('/getshuoshuoamount',router.getshuoshuoamount); // 分页数据查询用户信息操作
+app.get('/user/:username',router.showUser); // 个人主页视图
+app.get('/userlist',router.showUserList); // 用户列表视图
 
 app.listen(8081);

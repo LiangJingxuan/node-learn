@@ -9,28 +9,21 @@
             </button>
             <a class="navbar-brand" href="/">班级说说</a>
         </div>
+        <% if(!login){ %>
         <ul class="nav navbar-nav">
             <li <% if(active==='首页'){ %> class="active" <% } %> ><a href="/">全部说说 <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">我的说说</a></li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">One more separated link</a></li>
-                </ul>
-            </li>
+            <li <% if(active==='用户列表'){ %> class="active" <% } %> ><a href="/userlist">用户列表</a></li>
         </ul>
-        <% if(!login){ %>
         <ul class="nav navbar-nav navbar-right">
             <li <% if(active==='注册'){ %> class="active" <% } %>><a href="/register">注册</a></li>
             <li <% if(active==='登录'){ %> class="active" <% } %>><a href="/login">登录</a></li>
         </ul>
         <% }else{ %>
+        <ul class="nav navbar-nav">
+            <li <% if(active==='首页'){ %> class="active" <% } %> ><a href="/">全部说说 <span class="sr-only">(current)</span></a></li>
+            <li <% if(active==='我的说说'){ %> class="active" <% } %> ><a href="/user/<%=username%>">我的说说</a></li>
+            <li <% if(active==='用户列表'){ %> class="active" <% } %> ><a href="/userlist">用户列表</a></li>
+        </ul>
         <ul class="nav navbar-nav navbar-right">
             <li class=""><a href="">欢迎您！ <%=username%></a></li>
             <li class=""><a href="">设置个人资料</a></li>

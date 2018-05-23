@@ -64,6 +64,19 @@
 
     </div>
 
+    <!-- 分页 -->
+    <div class="text-right">
+        <ul class="pagination">
+            <!--<li><a href="#">&laquo;</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">&raquo;</a></li>-->
+        </ul>
+    </div>
+
     <hr>
 
     <footer>
@@ -114,43 +127,56 @@
     });
 
     // 说说查询
-    $.ajax({
-        url: '/getAllPost',
-        data: {page: 0},
-        type: 'GET',
-        dataType: 'JSON',
-        success: function(result){
-            var p='';
+    getPage(0);
+    function getPage(page){
+        $('#postBox').html('');
+        $.ajax({
+            url: '/getAllPost',
+            data: {page: page},
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(result){
+                var p='';
 
-            // 迭代器获取用户信息
-            (function iterator(i){
-                if(i===result.length){
-                    return false; // 停止迭代器
-                }
-                $.ajax({
-                    url: '/getUserInfo',
-                    data: {username: result[i].username},
-                    type: 'GET',
-                    dataType: 'JSON',
-                    async: false,
-                    success: function(info){
-                        result[i].avatar=info.avatar;
-                        p+=
-                            '<div class="col-md-4">\n' +
-                            '    <h2><img style="width: 50px;margin-right: 5px;border-radius: 50%;" src="/avatar/'+result[i].avatar+'" alt="">'+result[i].username+' 说：</h2>\n' +
-                            '    <p>'+result[i].content+'</p>\n' +
-                            '    <p>'+result[i].date+'</p>\n' +
-                            '    <p><a class="btn btn-default" href="#" role="button">查看详情 &raquo;</a></p>\n' +
-                            '</div>';
-
-                        // 调用迭代器
-                        iterator(i+1);
+                // 迭代器获取用户信息
+                (function iterator(i){
+                    if(i===result.length){
+                        return false; // 停止迭代器
                     }
-                });
-            })(0);
-            $('#postBox').html(p);
+                    $.ajax({
+                        url: '/getUserInfo',
+                        data: {username: result[i].username},
+                        type: 'GET',
+                        dataType: 'JSON',
+                        async: false,
+                        success: function(info){
+                            result[i].avatar=info.avatar;
+                            p+=
+                                '<div class="col-md-4">\n' +
+                                '    <h2><img style="width: 50px;margin-right: 5px;border-radius: 50%;" src="/avatar/'+result[i].avatar+'" alt="">'+result[i].username+' 说：</h2>\n' +
+                                '    <p>'+result[i].content+'</p>\n' +
+                                '    <p>'+result[i].date+'</p>\n' +
+                                '    <p><a class="btn btn-default" href="#" role="button">查看详情 &raquo;</a></p>\n' +
+                                '</div>';
+
+                            // 调用迭代器
+                            iterator(i+1);
+                        }
+                    });
+                })(0);
+                $('#postBox').html(p);
+            }
+        });
+    }
+
+    // 说说分页
+    $.get('/getshuoshuoamount',function(res){
+        var amount=parseInt(res);
+        var pageamount=Math.ceil(amount/6);
+        for(var i=0;i<pageamount;i++){
+            $('.pagination').append('<li onclick="getPage('+(i)+')"><a href="javascript:;">'+(i+1)+'</a></li>');
         }
-    });
+    })
 </script>
 </body>
 </html>

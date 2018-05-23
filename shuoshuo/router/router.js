@@ -222,19 +222,57 @@ module.exports={
     // 说说列表操作
     getAllPost(req,res){
         let page=req.query.page;
-        db.find('posts',{},{'pageamount':10,'page':page,'sort':{'datetime':-1}},(err,result)=>{
+        db.find('posts',{},{'pageamount':6,'page':page,'sort':{'datetime':-1}},(err,result)=>{
             res.json(result);
         })
     },
 
-    // 查询用户信息
+    // 查询用户信息操作
     getUserInfo(req,res){
         let username=req.query.username;
         db.find('users',{'username':username},(err,result)=>{
             let info={'avatar':result[0].avatar};
             res.json(info);
         })
+    },
+
+    // 分页数据查询用户信息操作
+    getshuoshuoamount(req,res){
+        db.getAllCount('posts',(count)=>{
+            res.send(count.toString());
+        })
+    },
+
+    // 个人主页视图
+    showUser(req,res){
+        let user=req.params['username'];
+        db.find('posts',{'username':user},(err,result)=>{
+            db.find('users',{'username':user},(err,avatar)=>{
+                res.render('user',{
+                    'login': req.session.login=='1'?true:false,
+                    'username': req.session.login=='1'?req.session.username:'',
+                    'user': user,
+                    'active': '我的说说',
+                    'curentShuoshuo': result,
+                    'useravatar': avatar[0].avatar
+                });
+            });
+        });
+    },
+
+    // 用户列表视图
+    showUserList(req,res){
+        db.find('users',{},(err,list)=>{
+            res.render('userlist',{
+                'login': req.session.login=='1'?true:false,
+                'username': req.session.login=='1'?req.session.username:'',
+                'active': '用户列表',
+                'list': list
+            });
+        })
     }
+
+
 
 
 };

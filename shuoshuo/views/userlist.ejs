@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>班级说说</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/jumbotron.css" rel="stylesheet">
+</head>
+<body>
+
+<% include header.ejs %>
+
+<div class="container">
+
+    <div class="row" style="margin-top: 50px;">
+        <% for(let i=0;i<list.length;i++){ %>
+        <div class="media">
+            <div class="media-left media-middle">
+                <a>
+                    <img class="media-object" src="/avatar/<%=list[i].avatar%>" style="width: 60px;border-radius: 50%;margin-right: 10px;">
+                </a>
+            </div>
+            <div class="media-body" style="vertical-align: middle;">
+                <h4 class="media-heading"><%=list[i].username%></h4>
+            </div>
+        </div>
+        <hr>
+        <% } %>
+    </div>
+
+    <footer>
+        <p>&copy; 2016 Company, Inc.</p>
+    </footer>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+
+</body>
+</html>
