@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>书名</th>
+                <th>作者</th>
+                <th>价格</th>
+                <th>分类</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for(let i=0,len=bookList.length;i<len;i++){ %>
+            <tr>
+                <td><%= bookList[i].name %></td>
+                <td><%= bookList[i].author %></td>
+                <td><%= bookList[i].price %></td>
+                <td><%= bookList[i].type %></td>
+                <td><a href="/edit?id=<%= bookList[i]._id %>">修改</a></td>
+            </tr>
+            <% } %>
+        </tbody>
+    </table>
+
+    <a href="/addbook">添加图书</a>
+</body>
+</html>
