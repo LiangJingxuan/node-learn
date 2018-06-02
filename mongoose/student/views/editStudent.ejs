@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生管理系统</title>
+</head>
+<body>
+<form action="/doEditStudent" method="get">
+    <p><label>编号：<input type="text" name="sid" readonly value="<%=data.sid%>"></label></p>
+    <p><label>姓名：<input type="text" name="name" value="<%=data.name%>"></label></p>
+    <p>
+        <label>性别：
+            <input type="radio" name="sex" value="男" <% if(data.sex==='男'){ %> checked <%}%> >男
+            <input type="radio" name="sex" value="女" <% if(data.sex==='女'){ %> checked <%}%> >女
+        </label>
+    </p>
+    <p><label>年龄：<input type="text" name="age" value="<%=data.age%>"></label></p>
+    <p><input type="submit" value="修改"></p>
+</form>
+</body>
+</html>

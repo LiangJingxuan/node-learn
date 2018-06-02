@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生管理系统</title>
+</head>
+<body>
+    <table border="1" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>年龄</th>
+                <th>课程</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for(let i=0,len=items.length;i<len;i++){ %>
+            <tr align="center">
+                <td><%=items[i].sid%></td>
+                <td><%=items[i].name%></td>
+                <td><%=items[i].sex%></td>
+                <td><%=items[i].age%></td>
+                <td><%=items[i].curriculum%></td>
+                <td>
+                    <a href="/editStudent/<%=items[i].sid%>">修改</a>
+                    <a href="/removeStudent/<%=items[i].sid%>" onclick="return confirm('确认删除此学生信息？')">删除</a>
+                </td>
+            </tr>
+            <% } %>
+        </tbody>
+    </table>
+    <hr style="margin: 80px 0 15px">
+    <div>
+        <a href="/addStudent">添加学生</a>
+    </div>
+</body>
+</html>
