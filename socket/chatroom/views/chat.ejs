@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>socket.io</title>
+</head>
+<body>
+    <h1>小小聊天室</h1>
+    <hr style="margin-top: 50px">
+    <div>
+        <ul id="items">
+            <!--<li><b>amy:</b> 556565s5s5s6d56f</li>-->
+        </ul>
+    </div>
+    <hr style="margin-bottom: 50px;">
+    <div class="caozuo">
+        <input type="text" id="msg">
+        <input type="button" id="send" value="发言">
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket=io(),
+            msg=document.getElementById('msg'),
+            send=document.getElementById('send'),
+            items=document.getElementById('items');
+
+        // 发送聊天
+        send.onclick=function(){
+            socket.emit('msg',msg.value);
+        }
+        // 接收聊天
+        socket.on('io',function(msg){
+            var liElement=document.createElement('li'),
+                liText=document.createTextNode(msg);
+            liElement.appendChild(liText);
+            items.appendChild(liElement)
+        });
+    </script>
+</body>
+</html>

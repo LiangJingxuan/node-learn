@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>socket.io</title>
+</head>
+<body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket=io();
+        socket.emit('say','what are you doing now ?');
+        socket.on('bb',function(msg){
+            console.log(msg);
+        });
+    </script>
+</body>
+</html>
