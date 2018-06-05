@@ -4,21 +4,34 @@ const db=require('./config');
 
 class Db{
 
+    // 单例：保证一个类仅有一个实例
+    static Instance(){
+        if(!Db.instance){
+            Db.instance=new Db();
+        }
+        return Db.instance;
+    };
+
     constructor(){
-        this.connect(); // 初始化时调用连接数据库方法
+        this.dbClient=null; // 放置db对象-保证只执行一次数据库连接
+        this.connect(); // 实例化时执行数据库连接
     };
 
     // 连接
     connect(){
         return new Promise((resolve, reject)=>{
-            MongoClient.connect(db.dbUrl,(err,client)=>{
-                if(err){
-                    reject(err);
-                }else{
-                    const data=client.db(db.dbName);
-                    resolve(data);
-                }
-            })
+            if(!this.dbClient){ // 保证只执行一次数据库连接
+                MongoClient.connect(db.dbUrl,(err,client)=>{
+                    if(err){
+                        reject(err);
+                    }else{
+                        this.dbClient=client.db(db.dbName);
+                        resolve(this.dbClient);
+                    }
+                })
+            }else{
+                resolve(this.dbClient);
+            }
         })
     };
 
@@ -49,9 +62,4 @@ class Db{
     };
 }
 
-// 使用
-const myDb=new Db();
-
-myDb.find('user',{}).then((data)=>{
-    console.log(data)
-});
+module.exports=Db.Instance();
